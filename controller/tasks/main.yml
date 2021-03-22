@@ -1,0 +1,88 @@
+- name: "Installing Docker"
+  package:
+        name: docker
+        state: present   
+   
+- name: "Enabling Docker"
+  service:
+        name: docker  
+        state: started
+        enabled: yes
+
+- name: "Configuring yum for kubernetes"
+  yum_repository:
+        name: kubernetes
+        description: kubernetes
+        baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+        enabled: yes
+        gpgcheck: no
+        
+- name: "Installing kubelet,kubectl,kubeadm and iproute-tc"
+  package:
+        name: "{{ item }}"
+        state: present
+  loop:
+  - kubeadm
+  - iproute-tc
+
+- name: "Starting Kubelet Program"
+  service:
+         name: kubelet
+         state: started
+         enabled: yes
+
+- name: "Pulling images of kubeadm"
+  command: "kubeadm config images pull"
+
+- name: " Changing the cgroupdriver to systemd"
+  copy:
+         dest: /etc/docker/daemon.json
+         content: '{
+                   "exec-opts": ["native.cgroupdriver=systemd"]
+                   }'
+- name: "Restarting Docker"
+  service:
+          name: "docker"
+          state: restarted
+          enabled: yes
+
+- name: "Configuring network"
+  copy:
+          dest: "/etc/sysctl.d/k8s.conf"
+          content: "net.bridge.bridge-nf-call-ip6tables = 1\n
+                    net.bridge.bridge-nf-call-iptables = 1"
+
+- name: "Refreshing sysctl"
+  shell: "sysctl --system"
+
+- name: "Starting kubeadm service"
+  command: "kubeadm init --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=NumCPU --ignore-preflight-errors=Mem"
+  ignore_errors: yes
+
+- name: "Creating .kube Directory"
+  file:
+          path: "$HOME/.kube"
+          state: directory
+
+- name: "Copying config file"
+  shell: "echo Y | cp -i /etc/kubernetes/admin.conf $HOME/.kube/config"
+
+- shell: "chown $(id -u):$(id -g) $HOME/.kube/config"
+
+- name: "Installing Addons"
+  shell: "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"  
+
+- name: "Getting the join command"
+  shell: "kubeadm token  create --print-join-command"
+  register: joincommand
+
+- debug:
+       var: joincommand["stdout"]
+
+- add_host:
+       name: "linktojoin"
+       link: "{{ joincommand['stdout'] }}"
+
+- debug:
+        msg: "Controller node is successfully configured"  
+  # tasks file for controller
