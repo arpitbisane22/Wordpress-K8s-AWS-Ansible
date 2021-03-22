@@ -1,0 +1,63 @@
+- name: "Installing Docker"
+  package:
+        name: docker
+        state: present   
+   
+- name: "Enabling Docker"
+  service:
+        name: docker  
+        state: started
+        enabled: yes
+
+- name: "Configuring yum for kubernetes"
+  yum_repository:
+        name: kubernetes
+        description: kubernetes
+        baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+        enabled: yes
+        gpgcheck: no
+        
+- name: "Installing kubelet,kubectl,kubeadm and iproute-tc"
+  package:
+        name: "{{ item }}"
+        state: present
+  loop:
+  - kubeadm
+  - iproute-tc
+
+- name: "Starting Kubelet Program"
+  service:
+         name: kubelet
+         state: started
+         enabled: yes
+
+- name: " Changing the cgroupdriver to systemd"
+  copy:
+         dest: /etc/docker/daemon.json
+         content: '{
+                   "exec-opts": ["native.cgroupdriver=systemd"]
+                   }'
+- name: "Restarting Docker"
+  service:
+          name: "docker"
+          state: restarted
+          enabled: yes
+
+- name: "Configuring network"
+  copy:
+          dest: "/etc/sysctl.d/k8s.conf"
+          content: "net.bridge.bridge-nf-call-ip6tables = 1\n
+                    net.bridge.bridge-nf-call-iptables = 1"
+
+- name: "Refreshing sysctl"
+  shell: "sysctl --system"
+
+- debug: 
+       msg: "Worker nodes has been successfully Configured"
+
+- name: "Joining the master"
+  shell: "{{ hostvars['linktojoin']['link'] }}"
+
+- debug:
+      msg: "Your Kubernetes worker has been successfully connected to Master"  
+       # tasks file for controller
