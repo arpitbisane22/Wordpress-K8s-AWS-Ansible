@@ -13,6 +13,8 @@ Kubernetes is an open-source container-orchestration system for automating compu
 
 ![Ansible](https://i0.wp.com/volumes.blog/wp-content/uploads/2020/06/060120_1607_WhatisDellT1.png?w=760&ssl=1)
 
+Ansible is an automation tool that is used for configuration management. It is a very powerful tool written in python language, it has thousands of modules using which it works, Ansible gets its intelligence from its modules.
+
 ## How to create Ansible Role ?
 Roles let you automatically load related vars_files, tasks, handlers, and other Ansible artifacts based on a known file structure. Once you group your content in roles, you can easily reuse them and share them with other users.
 Below is the command you have to run for creating ansible-role.
