@@ -7,7 +7,7 @@
 ![MySQL](https://d1.awsstatic.com/asset-repository/products/amazon-rds/1024px-MySQL.ff87215b43fd7292af172e2a5d9b844217262571.png)
 MySQL is an open-source relational database management system. Its name is a combination of "My", the name of co-founder Michael Widenius's daughter, and "SQL", the abbreviation for Structured Query Language.
 
-![k8s](https://miro.medium.com/max/7200/1*afkK1deEdJkuN3IhnzuzKg.png)
+![k8s](https://www.ovh.com/blog/wp-content/uploads/2019/01/kubernetesblog02.jpg)
 
 Kubernetes is an open-source container-orchestration system for automating computer application deployment, scaling, and management. It was originally designed by Google and is now maintained by the Cloud Native Computing Foundation. It aims to provide a "platform for automating deployment, scaling, and operations of application containers across clusters of hosts". It works with a range of container tools and runs containers in a cluster, often with images built using Docker. Kubernetes originally interfaced with the Docker runtime through a "Dockershim"; however, the shim has since been deprecated in favor of directly interfacing with containered or another CRI-compliant runtime.
 
