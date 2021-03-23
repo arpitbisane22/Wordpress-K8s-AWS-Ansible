@@ -1,7 +1,10 @@
 # WordPress-Application on K8s-Cluster over AWS using Ansible !!
  In this Blog you can understand how we can automate the Launching of Wordpress application on kubernetes-cluster using Ansible.
  
-<img align="left" width="100" height="100" src="https://s.w.org/about/images/logos/wordpress-logo-stacked-rgb.png">
+
+<p align="center">
+  <img width="460" height="300" src="https://s.w.org/about/images/logos/wordpress-logo-stacked-rgb.png">
+</p>
  
  Wordpress is a free and open-source content management system written in PHP and paired with a MySQL or MariaDB database. Features include a plugin architecture and a template system, referred to within WordPress as Themes.
 
