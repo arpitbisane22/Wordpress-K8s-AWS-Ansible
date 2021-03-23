@@ -371,7 +371,7 @@ become_ask_pass = false
       var: "Database.stdout_lines"
  ```
 
-[**Click Here For Demonstration of Connecting the Wordpress with MYSQL.**](https://github.com/arpitbisane22/UDP-Chat-Program)
+
 
 # Your Kubernetes-Cluster will be successfully configured on top of AWS !
 
