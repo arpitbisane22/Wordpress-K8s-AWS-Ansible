@@ -14,11 +14,15 @@
 
 MySQL is an open-source relational database management system. Its name is a combination of "My", the name of co-founder Michael Widenius's daughter, and "SQL", the abbreviation for Structured Query Language.
 
-![k8s](https://www.ovh.com/blog/wp-content/uploads/2019/01/kubernetesblog02.jpg)
+<p align="center">
+  <img width="460" height="300" src="https://www.ovh.com/blog/wp-content/uploads/2019/01/kubernetesblog02.jpg">
+</p>
 
 Kubernetes is an open-source container-orchestration system for automating computer application deployment, scaling, and management. It was originally designed by Google and is now maintained by the Cloud Native Computing Foundation. It aims to provide a "platform for automating deployment, scaling, and operations of application containers across clusters of hosts". It works with a range of container tools and runs containers in a cluster, often with images built using Docker. Kubernetes originally interfaced with the Docker runtime through a "Dockershim"; however, the shim has since been deprecated in favor of directly interfacing with containered or another CRI-compliant runtime.
 
-![Ansible](https://i0.wp.com/volumes.blog/wp-content/uploads/2020/06/060120_1607_WhatisDellT1.png?w=760&ssl=1)
+<p align="center">
+  <img width="460" height="300" src="https://i0.wp.com/volumes.blog/wp-content/uploads/2020/06/060120_1607_WhatisDellT1.png?w=760&ssl=1">
+</p>
 
 Ansible is an automation tool that is used for configuration management. It is a very powerful tool written in python language, it has thousands of modules using which it works, Ansible gets its intelligence from its modules.
 
