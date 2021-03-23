@@ -1,5 +1,5 @@
 # WordPress-Application on K8s-Cluster over AWS using Ansible !!
- In this Blog you can understand how we can automate the Launching of Wordpress application on kubernetes-cluster using Ansible.
+ *In this Blog you can understand how we can automate the Launching of Wordpress application on kubernetes-cluster using Ansible.*
  
 
 <p align="center">
