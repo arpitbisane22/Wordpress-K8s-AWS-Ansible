@@ -1,10 +1,9 @@
 # WordPress-Application on K8s-Cluster over AWS using Ansible !!
  In this Blog you can understand how we can automate the Launching of Wordpress application on kubernetes-cluster using Ansible.
  
-<center>
- ![Wordpress](https://s.w.org/about/images/logos/wordpress-logo-stacked-rgb.png)
-</center>
- is a free and open-source content management system written in PHP and paired with a MySQL or MariaDB database. Features include a plugin architecture and a template system, referred to within WordPress as Themes.
+<img align="left" width="100" height="100" src="https://s.w.org/about/images/logos/wordpress-logo-stacked-rgb.png">
+ 
+ Wordpress is a free and open-source content management system written in PHP and paired with a MySQL or MariaDB database. Features include a plugin architecture and a template system, referred to within WordPress as Themes.
 
 ![MySQL](https://d1.awsstatic.com/asset-repository/products/amazon-rds/1024px-MySQL.ff87215b43fd7292af172e2a5d9b844217262571.png)
 MySQL is an open-source relational database management system. Its name is a combination of "My", the name of co-founder Michael Widenius's daughter, and "SQL", the abbreviation for Structured Query Language.
