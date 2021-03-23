@@ -135,10 +135,12 @@ Below is the content of tasks of Ansible-Role named aws for launching 1 master n
 
 
 → ec2 is an ansible module that helps in launching the AWS-instances.
+
 → add_host is an ansible module that helps us to add IP dynamically in a temporary inventory variable. hostname holds the public IP of the instances.
+
 → wait_for is another ansible module that helps in checking whether the instances are ready. The public DNS of the instances can be used to check whether SSH service has started on port number 22 or not. Once the Instance is ready to do SSH the next module will be executed.
 
-## Ansible tasks file for configuring Kubernetes-Master-Node
+## Ansible tasks file of Controller Role for configuring Kubernetes-Master-Node
 
 1. Master nodes and Worker nodes requires docker containers. The master node needs containers for running different services, while clients launches different pods on the worker node.
 
@@ -253,3 +255,111 @@ Below is the content of tasks of Ansible-Role named aws for launching 1 master n
 - name: "Installing Addons"
   shell: "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
 ```  
+
+## Ansible tasks file of Worker Role for configuring Kubernetes-Worker-Node.
+
+```
+- name: "Installing Docker"
+  package:
+        name: docker
+        state: present   
+   
+- name: "Enabling Docker"
+  service:
+        name: docker  
+        state: started
+        enabled: yes
+
+- name: "Configuring yum for kubernetes"
+  yum_repository:
+        name: kubernetes
+        description: kubernetes
+        baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+        enabled: yes
+        gpgcheck: no
+        
+- name: "Installing kubelet,kubectl,kubeadm and iproute-tc"
+  package:
+        name: "{{ item }}"
+        state: present
+  loop:
+  - kubeadm
+  - iproute-tc
+
+- name: "Starting Kubelet Program"
+  service:
+         name: kubelet
+         state: started
+         enabled: yes
+
+- name: " Changing the cgroupdriver to systemd"
+  copy:
+         dest: /etc/docker/daemon.json
+         content: '{
+                   "exec-opts": ["native.cgroupdriver=systemd"]
+                   }'
+- name: "Restarting Docker"
+  service:
+          name: "docker"
+          state: restarted
+          enabled: yes
+
+- name: "Configuring network"
+  copy:
+          dest: "/etc/sysctl.d/k8s.conf"
+          content: "net.bridge.bridge-nf-call-ip6tables = 1\n
+                    net.bridge.bridge-nf-call-iptables = 1"
+
+- name: "Refreshing sysctl"
+  shell: "sysctl --system"
+
+
+- debug: 
+       msg: "Worker nodes has been successfully Configured"
+```
+
+## Now, Integrating all the Ansible-roles in a single playbook to configure the cluster and also mentioning the tasks for setting up WordPress and MySQL.
+
+```
+- hosts: localhost
+  roles:
+  - role: aws
+
+- hosts: controller
+  roles:
+  - role: controller
+
+- hosts: workers
+  roles:
+  - role: worker     
+
+- hosts: controller
+  tasks:
+  - shell:  "kubectl create deployment mywp --image=wordpress:5.1.1-php7.3-apache"   
+
+  - shell: "kubectl run mydb --image=mysql:5.7  --env=MYSQL_USER=arpit  --env=MYSQL_PASSWORD=redhat --env=MYSQL_DATABASE=wpdb  --env=MYSQL_ROOT_PASSWORD=redhat"
+    
+  - shell: "kubectl expose deployment mywp --port 80 --type=NodePort"
+  
+  - name: "get service"
+    shell: "kubectl get svc"
+    register: service
+  
+  - debug:
+      var: "service.stdout_lines" 
+  
+  - name: "Pausing playbook for 50 seconds"
+    pause: 
+      seconds: 50
+  
+  - name: "gettin database IP"
+    shell: "kubectl get pods -o wide"
+    register: Database
+  
+  - debug:
+      var: "Database.stdout_lines"
+ ```
+ 
+# Your Kubernetes-Cluster will be successfully configured on top of AWS !
+
+Thanks for reading this blog !
