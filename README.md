@@ -371,7 +371,7 @@ become_ask_pass = false
       var: "Database.stdout_lines"
  ```
 
-
+[**Click Here For Demonstration of Connecting the Wordpress with MYSQL.**](https://www.linkedin.com/posts/arpit-bisane_vimaldaga-righteducation-educationredefine-activity-6780065645850701824-Lpl7)
 
 # Your Kubernetes-Cluster will be successfully configured on top of AWS !
 
