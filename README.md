@@ -19,5 +19,5 @@ Ansible is an automation tool that is used for configuration management. It is a
 Roles let you automatically load related vars_files, tasks, handlers, and other Ansible artifacts based on a known file structure. Once you group your content in roles, you can easily reuse them and share them with other users.
 
 Below is the command you have to run for creating ansible-role.
-``` ansible-galaxy init name_of_role
+``` ansible-galaxy init name_of_role ```
 
